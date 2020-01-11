@@ -197,6 +197,11 @@ final class Here extends AbstractHttpProvider implements Provider
     {
         $coordinates = $query->getCoordinates();
         $url = sprintf($this->useCIT ? self::REVERSE_CIT_ENDPOINT_URL : self::REVERSE_ENDPOINT_URL, $coordinates->getLatitude(), $coordinates->getLongitude(), $this->appId, $this->appCode, $query->getLimit());
+        if (null !== $query->getLocale()) {
+            $url .= '&'.http_build_query([
+                'language' => $query->getLocale(),
+            ]);
+        }
 
         return $this->executeQuery($url, $query->getLimit());
     }
