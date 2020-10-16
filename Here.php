@@ -181,8 +181,6 @@ final class Here extends AbstractHttpProvider implements Provider
             $additionalDataParam['IncludeMicroPointAddresses'] = $query->getData('IncludeMicroPointAddresses');
         }
 
-        $additionalDataParam['IncludeShapeLevel'] = 'country';
-
         if (!empty($additionalDataParam)) {
             $url = sprintf('%s&additionaldata=%s', $url, $this->serializeComponents($additionalDataParam));
         }
@@ -197,6 +195,10 @@ final class Here extends AbstractHttpProvider implements Provider
     {
         $coordinates = $query->getCoordinates();
         $url = sprintf($this->useCIT ? self::REVERSE_CIT_ENDPOINT_URL : self::REVERSE_ENDPOINT_URL, $coordinates->getLatitude(), $coordinates->getLongitude(), $this->appId, $this->appCode, $query->getLimit());
+
+        if (null !== $query->getLocale()) {
+            $url = sprintf('%s&language=%s', $url, $query->getLocale());
+        }
 
         return $this->executeQuery($url, $query->getLimit());
     }
