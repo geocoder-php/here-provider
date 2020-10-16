@@ -181,8 +181,6 @@ final class Here extends AbstractHttpProvider implements Provider
             $additionalDataParam['IncludeMicroPointAddresses'] = $query->getData('IncludeMicroPointAddresses');
         }
 
-        $additionalDataParam['IncludeShapeLevel'] = 'country';
-
         if (!empty($additionalDataParam)) {
             $url = sprintf('%s&additionaldata=%s', $url, $this->serializeComponents($additionalDataParam));
         }
